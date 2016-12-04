@@ -16,4 +16,4 @@ if __name__=='__main__':
 			print 'writing'
 			now = str(datetime.datetime.now()).replace(' ', '_')
 			with open('{}/{}_test_data_{}.wav'.format(training_data_dir, random_word, now), 'wb') as output_file:
-				output_file.write(audio.get_wav_data())
+				output_file.write(audio.get_raw_data())
