@@ -43,17 +43,19 @@ if __name__=='__main__':
 	data.extend(extra_dictionary_lines)
 	for line in data:
 		data_items = line.split()
-		dictionary[data_items[0]] = data_items[1:]
-		for index, phone in enumerate(dictionary[data_items[0]]):
-			if len(data_items[1:]) == 1 or (data_items[0].isalpha() and len(data_items[0]) < 3):
+		this_word = data_items[0]
+		dictionary[this_word] = data_items[1:]
+		for index, phone in enumerate(dictionary[this_word]):
+			if len(data_items[1:]) == 1 or (this_word.isalpha() and len(this_word) < 3):
 				if phone not in single_letter_mapping:
 					single_letter_mapping[phone] = []
-				single_letter_mapping[phone].append(data_items[0])
-			if index != len(dictionary[data_items[0]]) - 1:
-				key = '{}-{}'.format(phone, dictionary[data_items[0]][index + 1])
+				single_letter_mapping[phone].append(this_word)
+		for index, letter in enumerate(this_word):
+			if index != len(this_word) - 1:
+				key = '{}-{}'.format(letter, this_word[index+1])
 				if key not in transitional_numbers:
 					transitional_numbers[key] = 0
-				transitional_numbers[key]+= 1;
+				transitional_numbers[key]+= 1
 	
 	valid_phones = [phone for phone in single_letter_mapping]
 	for word in dictionary:
@@ -76,8 +78,13 @@ if __name__=='__main__':
 		possible_letters = single_letter_mapping[phone]
 		print phone, possible_letters
 		output_results_map[time_index] = {}
-		for letter in possible_letters:
+		for index, letter in enumerate(possible_letters):
 			probability = 1
 			probability *= get_observational_proabability(letter, time_index, dictionary)
 			output_results_map[time_index][letter] = probability
+			if index != len(possible_letters) -1:
+				transistion = '{}-{}'.format(letter, possible_letters[index+1])
+				if transistion in transitional_numbers:
+					print transitional_numbers[transistion]
+
 			
