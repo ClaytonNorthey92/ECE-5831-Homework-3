@@ -74,7 +74,7 @@ class HMM:
 				if prob > 0:
 					if p_i not in markov_model:
 						markov_model[p_i] = {}
-					markov_model[p_i][letter] = prob
+					markov_model[p_i][letter] = 1
 		num_markov_states = len(markov_model)
 		paths = []	
 		for i in range(num_markov_states):
@@ -131,18 +131,18 @@ if __name__=='__main__':
 	hmm = HMM()
 	total_count = 0
 	success_count = 0
-	run_count = 10
+	run_count = 1
 	for run in range(run_count):
 		random_words = [hmm.dictionary[random.randint(0, len(hmm.dictionary) - 1)] for i in range(10)]
 		for line in random_words:
 			print '---'
 			total_count += 1
 			line_items = line.split(' ', 1)
-			print line_items[0]
-			print line_items[1]
+			print 'word: ', line_items[0]
+			print 'phonemes: ', line_items[1]
 			result = hmm.match_word(line_items[1].strip())
-			print result
+			print 'result: ', result
 			if line_items[0] == result:
 				success_count += 1
 				print 'success'
-	print total_count, success_count, run_count
+	print "successful: {}%".format(float(success_count)/float(total_count)*100)
